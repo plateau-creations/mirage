@@ -1,10 +1,12 @@
 {
     "name": "plateau/mirage",
-    "description": "",
+    "description": "Temporary Folder Manager For Laravel 4",
+    "keywords" : ["laravel", "temp", "temporary", "folder", "file"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Plateau Creations",
-            "email": ""
+            "email": "plateau.webdesign@gmail.com"
         }
     ],
     "require": {
