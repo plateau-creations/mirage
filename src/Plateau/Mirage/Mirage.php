@@ -9,9 +9,27 @@ use Config;
 // at the end of the request lifecycle using App::after Event
 class Mirage {
 	
-	public $path;
 
-	public function request()
+	public function request($basePath = null)
+	{
+		if (! $basePath)
+		{
+			$basePath = $this->getConfigBasePath();
+		}
+
+		// Request a subfolder name and check it doesn't exists
+		$fullTempPath = $this->createRandomFolder($basePath);
+		
+		// Return full path
+		return $fullTempPath;
+	}
+
+
+	/**
+	 * Get the base path from config
+	 * @return [string] Temporary Folder Path 
+	 */
+	protected function getConfigBasePath()
 	{
 		$tempLocation = Config::get('mirage::temp_folder_path');
 		
@@ -20,27 +38,39 @@ class Mirage {
 		{
 			File::makeDirectory($tempLocation);
 		}
+		return $tempLocation;
+	}
 
-		// Request a subfolder name and check it doesn't exists
+	/**
+	 * Create A random folder in the $basefolder
+	 * @param  [type] $baseFolder [description]
+	 * @return String : Absolute path to created folder
+	 */
+	protected function createRandomFolder($baseFolder)
+	{
 		do
 		{
 			$subFolder = Str::random(32);
-			$fullTempPath = $tempLocation. '/'. $subFolder;
+			$fullPath = $baseFolder. '/'. $subFolder;
 		}
-		while (File::exists($fullTempPath));
+		while (File::exists($fullPath));
 
 		// Create it
-		File::makeDirectory($fullTempPath);
+		File::makeDirectory($fullPath);
 		
-		App::after(function($request, $response) use ($fullTempPath)
-		{
-		    // Delete $tempFolder
-		    File::deleteDirectory($fullTempPath);
-		});
-
-		// Return full path
-		return $fullTempPath;
+		return $fullPath;
 	}
 
-
+	/**
+	 * Will fire event at end of laravel application lifecycle
+	 * @param  Folder To Delete
+	 * @return void
+	 */
+	protected function markForDeletion($folder)
+	{
+		App::after(function($request, $response) use ($folder)
+		{
+			File::deleteDirectory($folder);
+		});
+	}
 }

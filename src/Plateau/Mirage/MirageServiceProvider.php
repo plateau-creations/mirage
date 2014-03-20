@@ -29,6 +29,10 @@ class MirageServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		//
+		App::bind('mirage', function($app)
+		{
+		    return new Mirage;
+		});
 	}
 
 	/**
