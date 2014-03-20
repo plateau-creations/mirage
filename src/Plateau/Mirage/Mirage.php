@@ -29,7 +29,7 @@ class Mirage {
 	 * Get the base path from config
 	 * @return [string] Temporary Folder Path 
 	 */
-	protected function getConfigBasePath()
+	public function getConfigBasePath()
 	{
 		$tempLocation = Config::get('mirage::temp_folder_path');
 		
@@ -46,7 +46,7 @@ class Mirage {
 	 * @param  [type] $baseFolder [description]
 	 * @return String : Absolute path to created folder
 	 */
-	protected function createRandomFolder($baseFolder)
+	public function createRandomFolder($baseFolder)
 	{
 		do
 		{
@@ -57,7 +57,9 @@ class Mirage {
 
 		// Create it
 		File::makeDirectory($fullPath);
-		
+		// Mark for deletion
+		$this->markForDeletion($fullPath);
+	
 		return $fullPath;
 	}
 
