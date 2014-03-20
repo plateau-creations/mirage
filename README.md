@@ -55,3 +55,4 @@ If you ever need to clean the temporary folder :
 Mirage::clean();
 ```
 
+Happy Coding!
