@@ -45,4 +45,5 @@ class MirageServiceProvider extends ServiceProvider {
 		return array();
 	}
 
+	
 }

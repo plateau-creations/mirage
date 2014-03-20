@@ -75,4 +75,14 @@ class Mirage {
 			File::deleteDirectory($folder);
 		});
 	}
+
+	/**
+	 * Clean the temporary folder
+	 * @return (void)
+	 */
+	public function clean()
+	{
+		File::cleanDirectory($this->getConfigBasePath() );
+	}
+	
 }
